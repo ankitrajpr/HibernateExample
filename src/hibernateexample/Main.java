@@ -102,7 +102,7 @@ public class Main {
                 System.out.print("First Name: " + employee.getFirstName());
                 System.out.print("  Last Name: " + employee.getLastName());
                 System.out.println("  Salary: " + employee.getSalary());
-                Set phoneNums = employee.getPhones();
+                Set phoneNums = employee.getPhones(); //set implementation of SQL and Java based feature to add only diff phone Number of cell and home phone number to be unique. For this, equal and hash code is used.
                 for (Iterator iterator2 =
                      phoneNums.iterator(); iterator2.hasNext();){
                     Phone phoneNum = (Phone) iterator2.next();

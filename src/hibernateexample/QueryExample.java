@@ -77,7 +77,7 @@ public class QueryExample {
 
            //4th option with Named parameters
             //Named Query are great way to enforce data intergrity Using hql.
-            String hql = "from Employee where salary > :salary";
+            /*String hql = "from Employee where salary > :salary";
             Query query = session.createQuery(hql);
             query.setInteger("salary",65000);
             List employees = query.list();
@@ -87,7 +87,15 @@ public class QueryExample {
                 System.out.println("First Name: " + ee.getFirstName());
                 System.out.println("Last Name: " + ee.getLastName());
                 System.out.println("Salary: " + ee.getSalary());
-            }
+            }*/
+
+            //5th Option --Using Aggregate function
+            String hql = "select max(e.salary) from Employee e";
+            Query query = session.createQuery(hql);
+            int s = (int)query.uniqueResult();
+            System.out.println("MAX SALARY :: "+ s);
+
+
 
         } catch (HibernateException e) {
             // if (tx!=null) tx.rollback();

@@ -64,7 +64,22 @@ public class QueryExample {
             }*/
 
             //3rd option with limit in alias
-            Query query = session.createQuery("from Employee  as e where e.firstName "+ "like 'S%' and salary>7000");
+           /* Query query = session.createQuery("from Employee  as e where e.firstName "+ "like 'S%' and salary>7000");
+            List employees = query.list();
+            for (Iterator iterator =
+                 employees.iterator(); iterator.hasNext(); ) {
+                Employee ee = (Employee) iterator.next();
+                System.out.println("First Name: " + ee.getFirstName());
+                System.out.println("Last Name: " + ee.getLastName());
+                System.out.println("Salary: " + ee.getSalary());
+            }*/
+
+
+           //4th option with Named parameters
+            //Named Query are great way to enforce data intergrity Using hql.
+            String hql = "from Employee where salary > :salary";
+            Query query = session.createQuery(hql);
+            query.setInteger("salary",65000);
             List employees = query.list();
             for (Iterator iterator =
                  employees.iterator(); iterator.hasNext(); ) {
@@ -73,7 +88,6 @@ public class QueryExample {
                 System.out.println("Last Name: " + ee.getLastName());
                 System.out.println("Salary: " + ee.getSalary());
             }
-
 
         } catch (HibernateException e) {
             // if (tx!=null) tx.rollback();

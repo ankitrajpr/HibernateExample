@@ -7,6 +7,7 @@ inside the package - hibernateexample
 =====================================*/
 
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -15,6 +16,8 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import org.hibernate.service.ServiceRegistry;
 
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.Iterator;
 import java.util.List;
 
@@ -90,10 +93,41 @@ public class QueryExample {
             }*/
 
             //5th Option --Using Aggregate function
-            String hql = "select max(e.salary) from Employee e";
+            /*String hql = "select max(e.salary) from Employee e";
             Query query = session.createQuery(hql);
             int s = (int)query.uniqueResult();
-            System.out.println("MAX SALARY :: "+ s);
+            System.out.println("MAX SALARY :: "+ s);*/
+
+
+            //6th Option -- Using Criteria Query API
+
+            //Criteria to list all Employee
+           /*Criteria criteria = session.createCriteria(Employee.class);  //It got Deprecated in Hibernate 5.2+
+            List employees = criteria.list(); //not workng after deprecated.*/
+            CriteriaQuery<Employee> criteriaQuery = session.getCriteriaBuilder().createQuery(Employee.class);
+            Root<Employee> root = criteriaQuery.from(Employee.class);
+            criteriaQuery.select(root);
+            Query<Employee> emp = session.createQuery(criteriaQuery);
+            List<Employee> employees = emp.getResultList();
+
+            for (Iterator iterator = employees.iterator(); iterator.hasNext();)
+            {
+                Employee ee  = (Employee) iterator.next();
+                System.out.println("First Name : "+ee.getFirstName());
+                System.out.println("Last Name : "+ee.getLastName());
+                System.out.println("Salary ::" +ee.getSalary());
+
+            }
+
+            //Wihtout using Iterator by For each for a specific class
+            for (Employee es:employees
+                 ) {
+                System.out.println("First Name forEACH : "+es.getFirstName());
+                System.out.println("Last Name : "+es.getLastName());
+                System.out.println("Salary ::" +es.getSalary());
+
+            }
+
 
 
 
